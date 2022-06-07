@@ -1,0 +1,25 @@
+#include <bits/stdc++.h> 
+vector<int> majorityElementII(vector<int> &arr)
+{
+    int n = arr.size();
+    int ans1=-1,ans2=-1,c1=0,c2=0;
+    for(int i=0;i<n;i++){
+        if(ans1==arr[i])c1++;
+        else if(ans2==arr[i])c2++;
+        else if(c1==0){ans1=arr[i];c1++;}
+        else if(c2==0){ans2=arr[i];c2++;}
+        else {c1--;c2--;}
+    }
+    c1=c2=0;
+    for(int i=0;i<n;i++){
+        if(ans1==arr[i])c1++;
+        if(ans2==arr[i])c2++;
+    }
+    vector<int>v;
+    if(c1>n/3)v.push_back(ans1);
+    if(c2>n/3){
+        if(ans1!=ans2)v.push_back(ans2);
+    }
+    return v;
+
+}
