@@ -1,0 +1,52 @@
+#include <bits/stdc++.h> 
+void swap(int *a , int *b){
+    int temp = *a;
+    *a=*b;
+    *b=temp;
+}
+vector<int> ninjaAndSortedArrays(vector<int>& arr1, vector<int>& arr2, int m, int n) {
+    vector<int> ans;
+    int j=0,n1=m+n;
+    for(int i=m;i<n1;i++){
+        arr1[i]=arr2[j];
+        j++;
+    }
+    
+    int gap;
+    if(n1%2==0)gap=n1/2;
+    else gap=(n1/2)+1;
+    int g=0;
+    while(g!=2){
+        int i=0;
+        int j=i+gap;
+        while(j<n1){
+            if(arr1[i]>arr1[j])swap(&arr1[i],&arr1[j]);
+            i++;
+            j++;
+        }
+        if(gap%2==0)gap=gap/2;
+        else gap=(gap/2)+1;
+        if(gap==1)g++;
+    }
+    return ans=arr1;
+    
+//********** 10/11 TAST CASE PASS**************//
+// 	vector<int>ans;
+//     int i =0,j=0;
+//     while(i<m){
+//         if(arr1[i]>arr2[j]){
+//             swap(&arr1[i],&arr2[j]);
+//             sort(arr2.begin(),arr2.end());
+//         }
+//         else{
+//             i++;
+//         }
+//     }
+//     j=0;
+//     for(int i=m;i<m+n;i++){
+//         arr1[i]=arr2[j];
+//         j++;
+//     }
+//     return ans= arr1;
+    
+}
