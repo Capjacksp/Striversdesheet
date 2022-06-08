@@ -1,0 +1,65 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the linked list node structure.
+    
+    template <typename T>
+    class Node {
+        public:
+        T data;
+        Node* next;
+
+        Node(T data) {
+            next = NULL;
+            this->data = data;
+        }
+
+        ~Node() {
+            if (next != NULL) {
+                delete next;
+            }
+        }
+    };
+
+************************************************************/
+
+void merge_(Node<int>**head , Node<int>**temp){
+    (*temp)->next= *head;
+    *temp=(*temp)->next;
+    *head=(*head)->next;
+}
+Node<int>* Merge(Node<int>*f, Node<int>*s){
+    Node<int>*ans = new Node<int>(1);
+    Node<int> * temp=ans;
+    while(f && s){
+        merge_(f->data <= s->data?&f:&s,&temp);
+    }
+    temp->next= f?f:s;
+    return ans->next;
+    
+}
+
+
+Node<int> * reverse_(Node<int>*f,Node<int>*s){
+    if(f==NULL)return s;
+    if(s==NULL)return f;
+    if(f->data <= s->data){
+        f->next=reverse_(f->next,s);
+        return f;
+    }
+    else{   
+        s->next  = reverse_(f,s->next);
+        return s;
+    }
+}
+
+
+
+Node<int>* sortTwoLists(Node<int>* first, Node<int>* second)
+{
+//     return Merge(first,second);
+    return reverse_(first,second);
+}
+
+
+
