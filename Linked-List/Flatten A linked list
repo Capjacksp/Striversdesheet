@@ -1,0 +1,128 @@
+#include <bits/stdc++.h> 
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node* child;
+
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
+        this->child = NULL;
+    }
+};
+
+*****************************************************************/
+///////////////////1st method //////////////////////////////////////////////
+Node * merge_(Node**head , Node**t){
+    (*t)->child = *head;
+    *t = (*t)->child;
+    *head = (*head)->child;
+}
+
+
+Node * merge(Node*h1,Node*h2){
+    if(h1==NULL)return h2;
+    if(h2==NULL)return h1;
+    Node * ans = new Node(1);
+    Node * t = ans;
+    while(h1 && h2)merge_(h1->data<=h2->data?&h1:&h2,&t);       
+    t->child = h1?h1:h2;
+    return ans->child;       
+}
+
+
+Node* flatten_1st(Node *head){
+    if(head==NULL || head->next==NULL)return head;
+    head->next = flatten_1st(head->next);
+    head = merge(head,head->next);
+    return head;
+}
+
+/////////////////1st method end////////////////////////////////
+
+/////////////////2nd method //////////////////////////////////
+class compare{
+    public:
+    bool operator()(Node *a ,Node*b){
+        return a->data > b->data;
+    }
+};
+
+Node * flatten_2nd(Node * head){
+    Node* t1 =head;
+    priority_queue<Node* , vector<Node*> , compare> pq;
+    while(t1){
+        pq.push(t1);
+        t1=t1->next;
+    }
+    Node * ans = new Node(1);
+    Node *t = ans ;
+    while(!pq.empty()){
+        Node * temp = pq.top();
+        t->child= pq.top();
+        t=t->child;
+        pq.pop();
+        if(temp->child){
+             pq.push(temp->child);
+        }
+     }
+     
+    return ans->child;
+    
+}
+
+
+////////////////////2nd method end ///////////////
+
+/////////////////////3rd method /////////////////////////////
+
+Node * merge_3(Node * h1 , Node *h2){
+    if(h1==NULL) return h2;
+    if(h2==NULL) return h1;
+    Node * ans;
+    if(h1->data < h2->data){
+        ans= h1;
+        ans->child  = merge_3(h1->child , h2);
+        return ans;
+    }
+    else{
+        ans=h2;
+        ans->child = merge_3(h1, h2->child);
+        return ans;
+    }
+    
+}
+
+Node* flatten_3rd(Node*head){
+    Node * a =head;
+    Node * b =head->next;
+    while(b){
+        Node * x = b->next;
+        a=merge_3(a,b);
+        b=x;
+    }
+    return a;
+}
+
+////////////////////////////// 3rd method end ////////////////////////////
+Node* flattenLinkedList(Node* head) 
+{
+//     return flatten_1st(head);
+//     return flatten_2nd(head);
+    return flatten_3rd(head);
+}
+
+
+
+
+
+
+
+
+
+
