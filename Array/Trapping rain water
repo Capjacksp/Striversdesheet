@@ -1,0 +1,49 @@
+#include <bits/stdc++.h> 
+
+/////////////////////////////////// 1st method//////////////////////////////////////////////
+///////////////////// time complex - O(n) || space = O(n)///////////////
+long solve1(long *arr , int n ){
+    int prf[n],suf[n];
+    prf[0]=arr[0];
+    for(int i=1;i<n;i++){
+        prf[i]=prf[i-1]>arr[i]?prf[i-1]:arr[i];
+    }
+    suf[n-1]=arr[n-1];
+    for(int i=n-2;i>=0;i--){
+        suf[i]=suf[i+1]>arr[i]?suf[i+1]:arr[i];
+    }
+    long long ans =0;
+    for(int i =0;i<n;i++){
+        int t =min(prf[i],suf[i])-arr[i];
+        if(t>0)ans+=t;
+    }
+    return ans;
+}
+////////////////////// 1st method ////////////
+
+///////////////////////////// 2nd method/////////////
+///////////////////////// time complex = O(n) ||| space complex = O(1)/////
+long int solve2(long *arr , int n ){
+    long int ans = 0 , l=0,r=n-1,lmax=0,rmax=0;
+    while(l<=r){
+        if(arr[l]<=arr[r]){
+            if(lmax<arr[l])lmax=arr[l];
+            else ans+= lmax-arr[l];
+            l++;
+        }
+        else{
+            if(rmax<arr[r])rmax=arr[r];
+            else ans+= rmax-arr[r];
+            r--;
+        }
+    }
+    return ans;
+}
+
+
+long getTrappedWater(long *arr, int n){
+    return solve2(arr,n);
+}
+
+
+
