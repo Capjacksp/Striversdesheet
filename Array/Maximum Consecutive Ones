@@ -1,0 +1,23 @@
+
+int sliding_window_sol(vector<int> &arr , int n, int k){
+    int wl=0,wr=0,maxw=0,zeros=0;
+    while(wr<n){
+        if(zeros<=k){
+            if(arr[wr]==0)zeros++;
+            wr++;
+        }
+        if(zeros>k){
+            if(arr[wl]==0)zeros--;
+            wl++;
+        }
+        if((wr-wl > maxw) && (zeros<=k)){
+            maxw=wr-wl;
+        }
+    }
+    return maxw;
+}
+
+
+int longestSubSeg(vector<int> &arr , int n, int k){
+    return sliding_window_sol(arr,n,k);
+}
