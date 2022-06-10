@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+#define ppi pair<pair<int,int>, int>
+#define pii pair<int, int>
+#define f first
+#define s second 
+
+static bool compare(ppi &a, ppi &b){
+    if(a.f.s<b.f.s) return true;
+    else if(a.f.s>b.f.s)return false;
+    else if(a.s<b.s)return true;
+    else return false;
+}
+
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end) {
+    int n = start.size();
+    vector<ppi>v;
+    for(int i=0;i<n;i++)v.push_back({{start[i],end[i]},i+1});
+    sort(v.begin(),v.end(),compare);
+    vector<int> ans;
+    int x=1,j=0;
+    ans.push_back(v[0].s);
+    for(int i=1;i<n;i++){
+        if(v[i].f.f>v[j].f.s){
+            ans.push_back(v[i].s);
+            x+=1;
+            j=i;
+        }
+    }
+    return ans;
+}
