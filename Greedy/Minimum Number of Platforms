@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+#define pic pair<int,int>
+#define f first
+#define s second
+///////////////////// we can use multimap /////////////////////
+
+int method_1st(int at[], int dt[], int n ){
+    sort(at, at+n);
+    sort(dt, dt+n);
+    int i=0,j=0;
+    int ans =INT_MIN,x=0;
+    while(i<n && j<n){
+        if(at[i]<=dt[j]){
+            x+=1;
+            i++;
+        }
+        else{
+            x-=1;
+            j++;
+        }
+        if(x>ans)ans=max(x,ans);
+    }
+    return ans;
+}
+
+
+// int method_2nd(int at[], int dt[], int n){
+//     multiset<pic>m;
+//     for(int i=0;i<n;i++){
+//         m.insert({at[i],'A'});
+//         m.insert({dt[i],'D'});
+//     }
+//     int ans=0,x=INT_MAX;
+//     for(auto x:m){
+//         if(x.s=='A')ans++;
+//         else ans--;
+//         if(ans<x)x=max(x,ans);
+//     }
+//     return x;
+// } 
+
+
+
+
+int calculateMinPatforms(int at[], int dt[], int n) {
+//     return method_2nd(at,dt,n);
+    return method_1st(at,dt,n);
+    
+}
