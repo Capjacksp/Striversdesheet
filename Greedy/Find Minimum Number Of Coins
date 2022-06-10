@@ -1,0 +1,54 @@
+int findMinimumCoins(int amount) 
+{
+    int ans=0;
+    int x;
+    while(amount>0){
+        if(amount==0)return ans;
+        if(amount>=1000){
+            x=amount/1000;
+            amount=amount-(x*1000);
+            ans+=x;
+        }
+        if(amount>=500){
+            x=amount/500;
+            amount=amount-(x*500);
+            ans+=x;
+        }
+        if(amount>=100){
+            x=amount/100;
+            amount=amount-(x*100);
+            ans+=x;
+        }
+        if(amount>=50){
+            x=amount/50;
+            amount=amount-(x*50);
+            ans+=x;
+        }        
+        if(amount>=20){
+            x=amount/20;
+            amount=amount-(x*20);
+            ans+=x;
+        }
+        if(amount>=10){
+            x=amount/10;
+            amount=amount-(x*10);
+            ans+=x;
+        }
+        if(amount>=5){
+            x=amount/5;
+            amount=amount-(x*5);
+            ans+=x;
+        }
+        if(amount>=2){
+            x=amount/2;
+            amount=amount-(x*2);
+            ans+=x;
+        }     
+        if(amount>=1){
+            x=amount/1;
+            amount=amount-(x*1);
+            ans+=x;
+        }        
+    }
+    return ans;            
+}
