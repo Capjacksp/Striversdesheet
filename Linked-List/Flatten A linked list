@@ -20,6 +20,7 @@ public:
 ///////////////////1st method //////////////////////////////////////////////
 Node * merge_(Node**head , Node**t){
     (*t)->child = *head;
+    (*t)->next=NULL;
     *t = (*t)->child;
     *head = (*head)->child;
 }
@@ -30,8 +31,11 @@ Node * merge(Node*h1,Node*h2){
     if(h2==NULL)return h1;
     Node * ans = new Node(1);
     Node * t = ans;
+    ans->next=NULL;
+    t->next =NULL;
     while(h1 && h2)merge_(h1->data<=h2->data?&h1:&h2,&t);       
     t->child = h1?h1:h2;
+    t->next=NULL;
     return ans->child;       
 }
 
@@ -84,16 +88,15 @@ Node * flatten_2nd(Node * head){
 Node * merge_3(Node * h1 , Node *h2){
     if(h1==NULL) return h2;
     if(h2==NULL) return h1;
-    Node * ans;
-    if(h1->data < h2->data){
-        ans= h1;
-        ans->child  = merge_3(h1->child , h2);
-        return ans;
+    if(h1->data <= h2->data){
+        h1->next=NULL;
+        h1->child  = merge_3(h1->child , h2);
+        return h1;
     }
     else{
-        ans=h2;
-        ans->child = merge_3(h1, h2->child);
-        return ans;
+        h2->next=NULL;
+        h2->child = merge_3(h1, h2->child);
+        return h2;
     }
     
 }
@@ -106,15 +109,16 @@ Node* flatten_3rd(Node*head){
         a=merge_3(a,b);
         b=x;
     }
+    a->next=NULL;
     return a;
 }
 
 ////////////////////////////// 3rd method end ////////////////////////////
 Node* flattenLinkedList(Node* head) 
 {
-//     return flatten_1st(head);
+    return flatten_1st(head);
 //     return flatten_2nd(head);
-    return flatten_3rd(head);
+//     return flatten_3rd(head);
 }
 
 
