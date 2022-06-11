@@ -1,0 +1,41 @@
+
+
+bool p(string s, int i,int j){
+    while(i<j){
+        if(s[i]!=s[j])return false;
+        i++;
+        j--;
+    }
+    return true;
+}
+
+
+
+void find(int i,int n,string &s, vector<vector<string>>&v,vector<string>&t){
+    if(i==n){
+        v.push_back(t);
+        return;
+    }
+    
+    for(int j=i;j<n;j++){
+        if(p(s,i,j)){
+        t.push_back(s.substr(i,j-i+1));
+        find(j+1,n,s,v,t);
+        t.pop_back();
+        }
+    }
+    
+}
+
+
+
+
+
+vector<vector<string>> partition(string &s) 
+{
+    int n =s.size();
+    vector<vector<string>>v;
+    vector<string>t;
+    find(0,n,s,v,t);
+    return v;
+}
