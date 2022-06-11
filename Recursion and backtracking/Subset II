@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+void find(int i, int n, vector<int>&a, vector<int>&temp, vector<vector<int>>&v){
+    if(i==n){
+        v.push_back(temp);
+        return;
+    }
+    temp.push_back(a[i]);
+    find(i+1,n,a,temp,v);
+    temp.pop_back();
+    while(i+1<n && a[i]==a[i+1]){i++;}
+    find(i+1,n,a,temp,v);
+    
+}
+
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr){
+    sort(arr.begin(),arr.end());
+    vector<vector<int>>v;
+    vector<int>temp;
+    find(0,n,arr,temp,v);
+    sort(v.begin(),v.end());
+    return v;
+}
