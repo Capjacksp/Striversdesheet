@@ -1,0 +1,24 @@
+void swap(char * a, char * b){
+    char t = *a;
+    *a=*b;
+    *b=t;
+}
+
+void solve(int i,int n,string s,vector<string>&v){
+    if(i==n){
+        v.push_back(s);
+        return;
+    }
+    for(int j=i;j<n;j++){
+        swap(&s[i],&s[j]);
+        solve(i+1,n,s,v);
+        swap(&s[i],&s[j]);
+    }
+}
+
+vector<string> findPermutations(string &s) {
+    int n = s.size();
+    vector<string>v;
+    solve(0,n,s,v);
+    return v;
+}
