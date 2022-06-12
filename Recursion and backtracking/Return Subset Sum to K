@@ -1,0 +1,19 @@
+void solve1(int i, int n,int t,vector<int>&a,vector<int>&x,vector<vector<int>>&v){
+    if(i==n){
+        if(t==0)v.push_back(x);
+        return;
+    }
+    x.push_back(a[i]);
+    solve1(i+1,n,t-a[i],a,x,v);
+    x.pop_back();
+    solve1(i+1,n,t,a,x,v);
+}
+
+
+
+vector<vector<int>> findSubsetsThatSumToK(vector<int> arr, int n, int k){
+    vector<vector<int>>v;
+    vector<int>x;
+    solve1(0,n,k,arr,x,v);
+    return v;
+}
