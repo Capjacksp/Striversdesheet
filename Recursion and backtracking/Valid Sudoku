@@ -1,0 +1,63 @@
+bool valid(int m[9][9],int r , int c, int x){
+    for(int i=0;i<9;i++){
+        if(m[i][c]==x)return false;
+        if(m[r][i]==x)return false;
+        if(m[3*(r/3)+i/3][3*(c/3)+i%3]==x)return false;
+    }
+    return true;
+}
+
+bool method_1st(int matrix[9][9]){
+    for(int i =0;i<9;i++){
+        for(int j=0;j<9;j++){
+            if(matrix[i][j]==0){
+                for(int k=1;k<=9;k++){
+                    if(valid(matrix,i,j,k)){
+                        matrix[i][j]=k;
+                        if(method_1st(matrix)==true)return true;
+                        else matrix[i][j]=0;
+                   }
+                }
+                return false;
+            }
+        }
+    }
+    return true;
+    
+}
+////////////method 2nd /////////////////
+
+bool findzerolocation(int m[][9],int &row,int &col){
+    for(int row=0;row<9;row++){
+        for(int col=0;col<9;col++){
+            if(m[row][col]==0)return true;
+        }
+    }
+    return false;
+}
+
+
+
+bool method_2nd(int m[9][9]){
+    int row,col;
+    if(!findzerolocation(m,row,col))return true;
+    for(int i=1;i<=9;i++){
+        if(valid(m,row,col,i)){
+            m[row][col]=i;
+            if(method_2nd(m))return true;
+            m[row][col]=0;
+        }
+    }
+    return false;
+    
+}
+
+
+
+
+
+bool isItSudoku(int matrix[9][9]) {
+    return method_1st(matrix);
+//     return method_2nd(matrix);
+    
+}
