@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+#define pii pair<int,int>
+#define f first 
+#define s second 
+vector<int> KMostFrequent(int n, int k, vector<int> &arr){
+    priority_queue<pii>pq;
+    unordered_map<int,int>mp;
+    for(int i=0;i<n;i++){
+        mp[arr[i]]++;
+    }
+    for(auto x:mp){
+        pq.push({x.second,x.first});
+    }
+    vector<int>ans;
+    while(k--){
+        pii p = pq.top();
+        pq.pop();
+        ans.push_back(p.s);
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
+    
+}
