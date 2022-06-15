@@ -1,0 +1,30 @@
+bool isvalid(vector<int>&v,int n, int c ,int mid){
+    int cow =1;
+    int x=0;
+    int j=v[0];
+    for(int i=1;i<n;i++){
+        if((v[i]-j)>=mid){
+            cow++;
+            j=v[i];
+        }
+        if(cow==c)return true;
+    }
+    return false;
+}
+
+int chessTournament(vector<int> positions , int n ,  int c){
+    sort(positions.begin(),positions.end());
+	int l = 1;
+    int h = positions[n-1]-positions[0];
+    
+    int ans=-1;
+    while(l<=h){
+        int mid = (l+h)/2;
+        if(isvalid(positions,n,c,mid)){
+            ans = max(mid,ans);
+            l=mid+1;
+        }
+        else h=mid-1;
+    }
+    return ans;
+}
