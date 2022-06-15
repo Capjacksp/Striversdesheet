@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+#define ppi pair<int,pair<int,int>>
+#define pii pair<int,int> 
+#define f first
+#define s second 
+
+//-Alog-->> we have to find the max sum pair's between two arrays.. so we are using priority_queue So that we //choose maximum ... there can be two condition .. a[n-1]+b[n] maximum or a[n]+b[n-1] maximum after including //a[n]+a[n] .... so check pair using set and then put in pq . 
+
+
+vector<int> kMaxSumCombination(vector<int> &a, vector<int> &b, int n, int k){
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+    priority_queue<ppi>pq;
+    set<pii>set1;
+    pq.push({{(int)a[n-1]+b[n-1]},{n-1,n-1}});
+    set1.insert({n-1,n-1});
+    vector<int>ans;
+    
+    while(k--){
+        ppi p =pq.top();
+        pq.pop();
+        int sum = p.f;
+        ans.push_back(sum);
+        int i = p.s.f;
+        int j = p.s.s;
+        int after_sum_1 = a[i-1]+b[j];        
+        pii x_1 = make_pair(i-1,j);
+        if(set1.find(x_1)==set1.end()){
+            pq.push({after_sum_1,x_1});
+            set1.insert(x_1);
+        }
+        int after_sum_2 = a[i]+b[j-1];
+        pii x_2 = make_pair(i,j-1);
+        if(set1.find(x_2)==set1.end()){
+            pq.push({after_sum_2,x_2});
+            set1.insert(x_2);
+        }
+    }
+    return ans;
+}
+
+
