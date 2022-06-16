@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+/////////////// TC = O(3n), SC=O(3n)///
+int method_1(vector<int> &heights){
+    int n = heights.size();
+    stack<int >st;
+    vector<int>s1(n,0);
+    vector<int>s2(n,0);
+    for(int i=0;i<n;i++){
+        if(!st.empty()){
+            while(!st.empty() && heights[i]<=heights[st.top()]){
+                st.pop();
+            }
+        }
+        s1[i] = st.empty()?0:st.top()+1;
+        st.push(i);
+    }
+    while(!st.empty()){st.pop();}
+    for(int i=n-1;i>=0;i--){
+        if(!st.empty()){
+            while(!st.empty() && heights[i]<=heights[st.top()]){
+                st.pop();
+            }
+        }
+        s2[i] = st.empty()?n-1:st.top()-1;
+        st.push(i);
+    }
+    
+    int ans =0;
+    for(int i=0;i<n;i++){
+        ans = max(ans , (s2[i]-s1[i]+1)*heights[i]);
+    }
+    return ans;
+    
+}
+
+int method_2(vector<int>&heights){
+    int n = heights.size();
+    stack<int>s;
+    int m =0;
+    for(int i=0;i<=n;i++){
+        while(!s.empty() && (i==n || heights[i]<=heights[s.top()])){
+            int h = heights[s.top()];
+            s.pop();
+            int w;
+            if(s.empty())w=i;
+            else w =i-s.top()-1;
+            m = max(m,h*w);
+        }
+        s.push(i);
+    }
+    return m;
+}
+
+
+
+
+
+int largestRectangle(vector<int> & heights) {
+//     return method_1(heights);
+    return method_2(heights);
+ }
