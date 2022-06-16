@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+bool isValidParenthesis(string expression)
+{
+    int n = expression.size();
+    if(n==0)return false;
+    stack<char>st; 
+       for(auto it: expression) {
+           if(it=='(' || it=='{' || it == '[') st.push(it); 
+           else {
+                if(st.size() == 0) return false; 
+                char ch = st.top(); 
+                st.pop(); 
+                if((it == ')' and ch == '(') or  (it == ']' and ch == '[') or (it == '}' and ch == '{')) continue;
+                else return false;
+            }
+        }
+    if(st.size()==0)return true;
+    return false;
+}
