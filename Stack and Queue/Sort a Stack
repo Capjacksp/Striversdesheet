@@ -1,0 +1,25 @@
+void sort_insert(stack<int>&s ,int x){
+    if(s.empty() || x>s.top()){
+        s.push(x);
+        return;
+    }
+    int temp = s.top();
+    s.pop();
+    sort_insert(s,x);
+    s.push(temp);
+}
+
+
+void sort_stack(stack<int>&s){
+    if(!s.empty()){
+        int x  = s.top();
+        s.pop();
+        sort_stack(s);
+        sort_insert(s,x);
+    }
+} 
+
+void sortStack(stack<int> &stack)
+{
+	sort_stack(stack);
+}
