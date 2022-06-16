@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+void findMedian(int *arr, int n){
+    if(n==0)return;
+    priority_queue<int>pqmax;
+    priority_queue<int, vector<int>, greater<int>>pqmin;
+    int m = arr[0];
+    cout<<m<<" ";
+    pqmax.push(m);
+//---ALOG------>>>
+//Put the first element in the pq max;median of first element ...
+    for(int i=1;i<n;i++){
+        int x = arr[i];
+//If max size is bigger then check if new element is grater then prev. median or not..
+//If new element is greater then prev median then put it into min heap and if not then .
+// put pqmax.top() to min heap and pop it from max heap and put new element in max heap; 
+        if(pqmax.size() > pqmin.size()){
+            if(x<m){
+                pqmin.push(pqmax.top());
+                pqmax.pop();
+                pqmax.push(x);
+            }
+            else pqmin.push(x);
+            m = (pqmax.top()+pqmin.top())/2;
+        }
+//If size is same then if median is greater then new ele. then put into max heap and if not then..
+//Put it into min heap.        
+        
+        else if(pqmin.size() == pqmax.size()){
+            if(x<m){
+                pqmax.push(x);
+                m=pqmax.top();
+            }
+            else {
+                pqmin.push(x);
+                m=pqmin.top();
+            }
+        }
+// If max heap size is less then min heap then check if new ele. if greater then median then put .
+//in heap top element into max heap and pop min heap and put x and if not max heap;        
+        else{
+            if(x>m){
+                pqmax.push(pqmin.top());
+                pqmin.pop();
+                pqmin.push(x);
+            }
+            else pqmax.push(x);
+            m = (pqmax.top()+pqmin.top())/2;
+        }
+        
+        cout<<m<<" ";
+        arr[i]=m;
+    }
+    
+    
+    
+}
