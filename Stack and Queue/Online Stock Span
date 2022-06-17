@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+#define pi pair<int,int>
+#define f first
+#define s second 
+vector<int> findSpans(vector<int> &price) {
+    stack<pi>st;
+    vector<int>ans;
+    int n = price.size();
+    int c;
+    for(int i=0;i<n;i++){
+        c=1;
+        while(!st.empty() && st.top().f <= price[i]){
+            c+= st.top().s;
+            st.pop();
+        }
+        st.push({price[i],c});
+        ans.push_back(c);
+    }
+    return ans;
+    
+}
