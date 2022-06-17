@@ -24,7 +24,35 @@ bool method_2(string &s1,string &s2){
     
 }
 
+void swap(char *a,char *b){
+    char temp = *a;
+    *a=*b;
+    *b=temp;
+}
+
+
+bool method_3(int i,int n, string &s1, string &s2){
+    if(i==n){
+        if(s1==s2)return true;
+        return false;
+    }
+    for(int k=i;k<n;k++){
+        swap(&s1[i],&s1[k]);
+        method_3(i+1,n,s1,s2);
+        swap(&s1[i],&s1[k]);
+    }
+    return false;
+    
+}
+
+
+
+
 bool areAnagram(string &str1, string &str2){
+    int n =str1.size();
+    int m = str2.size();
+    if(n!=m)return false;
 //     return method_1(str1,str2);
     return method_2(str1,str2);
+//     return method_3(0,n,str1,str2);
 }
