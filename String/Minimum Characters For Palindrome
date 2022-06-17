@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+//// IMP --> lps index give you the longest same prifix and suffix ... that is also repersent the //palindrome .... so we just have to calculate max length of palindromic substring in whole string //that's why we reverse trhe string so that we can check in whole string ..
+void cal_lps(string p, int m, int *lps){
+    int i=1;
+    lps[0]=0;
+    int j=0;
+    while(i<m){
+        if(p[i]==p[j]){
+            j++;
+            lps[i]=j;
+            i++;
+        }
+        else{
+            if(j!=0){
+                j = lps[j-1];
+            }
+            else{
+                lps[i]=0;
+                i++;
+            }
+        }
+        
+    }
+    
+}
+
+
+int minCharsforPalindrome(string str) {
+	string s =str;
+    reverse(s.begin(),s.end());
+    string p = str+"$"+s;
+    int m = p.size();
+    int lps[m];
+    cal_lps(p,m,lps);
+	int ans = str.length()-lps[m-1];
+    return ans;
+}
