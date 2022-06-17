@@ -1,0 +1,78 @@
+#include<bits/stdc++.h>
+
+string method_1(string str){
+    int n = str.length();
+    string ans = "";
+    string temp = "";
+    bool x =true;
+    for(int i=0;i<n;i++){
+        char c = str[i];
+        if(c!=' '){
+            temp+=c;
+            if(!x)x=true;
+        }
+        else if(x){
+            x=false;
+            if(ans!="")ans = temp+" "+ans;
+            else ans = temp;
+            temp="";
+        }
+    }
+    if(temp!="" && ans!="")ans=temp+" "+ans;
+    else if(temp!="" && ans=="")ans=temp;
+    return ans;
+    
+}
+
+string method_2(string str){
+    int n = str.size();
+    int i =0;
+    string s = ""; 
+    while(i<n){
+        while(i<n && str[i]==' ')i++;
+        if(i>=n)break;
+        int j =i;
+        while(j<n && str[j]!=' ')j++;
+        string temp = str.substr(i,j-i);
+        if(s.size()==0)s=temp;
+        else s=temp+" "+s;
+        i=j+1;
+    }
+    return s;
+}
+
+string reverseString(string str)
+{
+//     return method_1(str);
+//     return method_2(str);
+    
+    int n = str.length();
+    stack<string>st;
+    string ans="";
+    for(int i=0;i<n;i++){
+        string temp="";
+        if(str[i]==' ')continue;
+        while(i<n && str[i]!=' '){
+            temp+=str[i];
+            i++;
+        }
+        st.push(temp);
+    }
+    
+    while(!st.empty()){
+        ans+= st.top();
+        st.pop();
+        if(!st.empty())ans+=" ";
+    }
+    return ans ;
+    
+    
+    
+}
+
+
+
+
+
+
+
