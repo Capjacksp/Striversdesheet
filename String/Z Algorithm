@@ -1,0 +1,10 @@
+int zAlgorithm(string s, string p, int n, int m)
+{
+	int ans=0;
+    string str ="";
+    for(int i=0;i<n-m+1;i++){
+        str = s.substr(i,m);
+        if(str==p)ans++;
+    }
+    return ans;
+}
