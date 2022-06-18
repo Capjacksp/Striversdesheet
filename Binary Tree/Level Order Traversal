@@ -1,0 +1,99 @@
+/************************************************************
+
+    Following is the BinaryTreeNode class structure
+
+    template <typename T>
+    class BinaryTreeNode {
+       public:
+        T val;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T val) {
+            this->val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#define pi pair<BinaryTreeNode<int>*,int>
+#define f first
+#define s second
+
+
+vector<int> bfs(BinaryTreeNode<int> *root){
+    if(root==NULL)return {};
+    queue<BinaryTreeNode<int>*>q;
+    vector<int>ans;
+    q.push(root);
+    while(!q.empty()){
+        int n = q.size();
+        while(n--){
+            BinaryTreeNode<int>* node = q.front();
+            q.pop();
+            ans.push_back(node->val);
+            if(node->left!=NULL)q.push(node->left);
+            if(node->right!=NULL)q.push(node->right);
+        }
+    }
+    return ans;
+}
+
+vector<int> bfsopt(BinaryTreeNode<int>* root){
+    if(root==NULL)return {};
+    queue<pi>q;
+    vector<vector<int>>v;
+    vector<int>a;
+    q.push({root,0});
+    while(!q.empty()){
+        pi p = q.front();
+        q.pop();
+        if(p.s<=q.size())v.push_back({p.f->val});
+        else v[p.s].push_back(p.f->val);
+        if(p.f->left!=NULL)q.push({p.f->left,p.s});
+        if(p.f->right!=NULL)q.push({p.f->right,p.s});
+    }
+    for(int i=0;i<v.size();i++){
+        a.insert(a.end(),v[i].begin(),v[i].end());
+    }
+    return a;
+}
+
+
+
+/////////////////////DFS////////////////////////
+
+void dfsr(BinaryTreeNode<int>*root, int l, vector<vector<int>>&v){
+    if(root==NULL)return ;
+    if(v.size()==l)v.push_back({root->val});
+    else v[l].push_back(root->val);
+    dfsr(root->left,l+1,v);
+    dfsr(root->right,l+1,v);
+}
+
+
+
+vector<int> dfs(BinaryTreeNode<int>* root){
+    if(root==NULL)return {};
+    vector<vector<int>>v;
+    vector<int>ans;
+    dfsr(root,0,v);
+    for(int i=0;i<v.size();i++){
+        ans.insert(ans.end(),v[i].begin(),v[i].end());
+    }
+    return ans;
+}
+
+
+vector<int> getLevelOrder(BinaryTreeNode<int> *root)
+{
+//     return bfs(root);
+//     return bfsopt(root);
+    return dfs(root);
+}
+
+
+
+
+
