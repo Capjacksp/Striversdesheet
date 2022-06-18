@@ -1,0 +1,102 @@
+/************************************************************
+
+Following is the Binary Tree node class
+    
+template <typename T = int>
+class TreeNode
+{
+public:
+    T data;
+    TreeNode<T> *left;
+    TreeNode<T> *right;
+
+    TreeNode(T val)
+    {
+        this->data = val;
+        left = NULL;
+        right = NULL;
+    }
+
+    ~TreeNode()
+    {
+        if (left != NULL)
+        {
+            delete left;
+        }
+        if (right != NULL)
+        {
+            delete right;
+        }
+    }
+};
+
+************************************************************/
+#include<bits/stdc++.h>
+#define pi pair<TreeNode<int>*, pair<int,int>>
+#define f first
+#define s second 
+
+///////////////////////////BFS//////////////////////////////////
+vector<int> bfs(TreeNode<int>*root){
+    map<int,map<int,vector<int>>>mp;
+    queue<pi>q;
+    vector<int>ans;
+    q.push({root,{0,0}});
+    while(!q.empty()){
+        pi p = q.front();
+        q.pop();
+        TreeNode<int>* node = p.f;
+        int x = p.s.f;
+        int y = p.s.s;
+        mp[x][y].push_back(node->data);
+        if(node->left!=NULL)q.push({node->left,{x-1,y+1}});
+        if(node->right!=NULL)q.push({node->right,{x+1,y+1}});
+    }
+    for(auto it:mp){
+        for(auto t:it.s){
+            ans.insert(ans.end(),t.s.begin(),t.s.end());
+        }
+    }
+    
+    return ans;
+}
+
+
+/////////////////////////DFS////////////////////////
+
+void dfsv(TreeNode<int>*root, auto &mp, int d){
+    if(root==NULL)return;
+    mp[d].push_back(root->data);
+    dfsv(root->left,mp,d-1);
+    dfsv(root->right,mp,d+1);
+}
+
+
+vector<int> dfs(TreeNode<int>*root){
+    map<int,vector<int>>mp;
+    dfsv(root,mp,0);
+    vector<int>v;
+    for(auto it:mp){
+        v.insert(it.s.begin(),it.s.end()); 
+    }
+    return v;
+}
+
+
+
+vector<int> verticalOrderTraversal(TreeNode<int> *root)
+{
+    return bfs(root);
+    return dfs(root)
+}
+
+
+
+
+
+
+
+
+
+
+
