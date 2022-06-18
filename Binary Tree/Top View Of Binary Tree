@@ -1,0 +1,54 @@
+/************************************************************
+
+    Following is the TreeNode class structure:
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) {
+            this->val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#include<bits/stdc++.h>
+#define pi pair<TreeNode<int>*, int>
+#define f first
+#define s second
+
+vector<int> getTopView(TreeNode<int> *root) {
+    vector<int>ans;
+    if(root==NULL)return {};
+    queue<pi>q;
+   map<int,int>mp;
+    q.push({root,0});
+    while(!q.empty()){
+        pi p = q.front();
+        q.pop();
+        TreeNode<int>* x = p.f;
+        int y = p.s;
+        if(mp.find(y)==mp.end())mp[y]=x->val;
+        if(x->left!=NULL)q.push({x->left,y-1});
+        if(x->right!=NULL)q.push({x->right,y+1});
+    }
+    for(auto it:mp){
+        ans.push_back(it.s);
+    }
+    return ans;
+}
+
+
+
+
+
+
+
+
+
+
