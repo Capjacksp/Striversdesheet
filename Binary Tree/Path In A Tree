@@ -36,11 +36,22 @@ void path(TreeNode<int>*root, vector<int>v, vector<int>&ans, int x){
     path(root->right,v,ans,x);
 }
 
+bool path2(TreeNode<int>*root, vector<int>&ans, int x){
+    if(root==NULL)return false;
+    ans.push_back(root->data);
+    if(root->data==x)return true;
+    if(path2(root->left,ans,x)||path2(root->right,ans,x))return true;
+    ans.pop_back();
+    return false;
+    
+}
+
 
 vector<int> pathInATree(TreeNode<int> *root, int x)
 {
     vector<int>v,ans;
-    path(root,v,ans,x);
+//     path(root,v,ans,x);
+    path2(root,ans,x);
     return ans;
 }
 
