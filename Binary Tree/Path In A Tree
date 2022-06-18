@@ -1,0 +1,48 @@
+/*   
+    template <typename T = int>
+	class TreeNode
+	{
+		public:
+		T data;
+		TreeNode<T> *left;
+		TreeNode<T> *right;
+
+		TreeNode(T data)
+		{
+			this->data = data;
+			left = NULL;
+			right = NULL;
+		}
+
+		~TreeNode()
+		{
+			if (left != NULL)
+			{
+		  		delete left;
+			}
+			if (right != NULL)
+			{
+			 	delete right;
+			}
+		}
+	};
+*/
+
+void path(TreeNode<int>*root, vector<int>v, vector<int>&ans, int x){
+    if(root==NULL)return ;
+    v.push_back(root->data);
+    if(root->data==x)ans=v;
+    path(root->left,v,ans,x);
+    path(root->right,v,ans,x);
+}
+
+
+vector<int> pathInATree(TreeNode<int> *root, int x)
+{
+    vector<int>v,ans;
+    path(root,v,ans,x);
+    return ans;
+}
+
+
+
