@@ -1,0 +1,84 @@
+/*************************************************************
+ 
+    Following is the Binary Tree node structure.
+
+    class BinaryTreeNode 
+    {
+    public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+#include<bits/stdc++.h>
+#include<map>
+#define pi pair<BinaryTreeNode<int>*,int>
+#define pp pair<int,pair<BinaryTreeNode<int>*,int>
+#define f first 
+#define s second
+
+void recur(BinaryTreeNode<int>* root, int x, int l, map<pair<int,pair<BinaryTreeNode<int>*,int>>&mp){
+    if(root==NULL)return;
+    
+    if(l>=mp[x].s){
+        mp[x]--;
+        mp[x] = {root,l};
+    }
+    
+    recur(root->left, x-1, l+1,mp);
+    recur(root->right, x+1,l+1,mp);
+}
+
+
+
+
+
+vector<int> recursive(BinaryTreeNode<int>* root){
+    vector<int>v;
+    map<pp>mp;
+    mp[0]={root,1};
+    recur(root,0,1,mp);
+    for(auto it:mp){
+        v.push_back(it.s.f->data);
+    }
+    return v;
+}
+
+
+
+vector<int> bottomView(BinaryTreeNode<int> * root){
+    
+    return recursive(root);
+    
+    vector<int>ans;
+    queue<pi>q;
+    map<int,int>mp;
+    q.push({root,0});
+    while(!q.empty()){
+        pi p = q.front();
+        q.pop();
+        int x = p.s;
+        BinaryTreeNode<int>*y =p.f;
+        mp[x] = y->data;
+        if(y->left!=NULL)q.push({y->left,x-1});
+        if(y->right!=NULL)q.push({y->right,x+1});
+    }
+    for(auto m:mp){ans.push_back(m.s);}
+    return ans;
+}
+
+
+
+
+
+
+
+
+
