@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>
+
+vector<int> method_1(vector<int>&arr,int n){
+    priority_queue<int>pqmax;
+    priority_queue<int,vector<int>,greater<int>>pqmin;
+    vector<int>ans(n);
+    int mid = arr[0];
+    pqmax.push(mid);
+    ans[0]=mid;
+    int i=1;
+    while(i<n){
+        int x = arr[i];
+        if(pqmax.size() > pqmin.size()){
+            if(x<mid){
+                pqmin.push(pqmax.top());
+                pqmax.pop();
+                pqmax.push(x);
+            }
+            else pqmin.push(x);
+            mid = (pqmax.top()+pqmin.top())/2;
+        }
+        else if(pqmax.size()==pqmin.size()){
+            if(x<mid){
+                pqmax.push(x);
+                mid=pqmax.top();
+            }
+            else{
+                pqmin.push(x);
+                mid = pqmin.top();
+            }
+        }
+        else{
+            if(x>mid){
+                pqmax.push(pqmin.top());
+                pqmin.pop();
+                pqmin.push(x);
+            }
+            else pqmax.push(x);
+            mid = (pqmax.top()+pqmin.top())/2;
+        }
+        ans[i]=mid;
+        i++;    
+    }
+    return ans;
+}
+
+
+
+vector<int> findMedian(vector<int> &arr, int n){
+// 	return method_1(arr,n);
+    priority_queue<int>pqmax;
+    priority_queue<int,vector<int>,greater<int>>pqmin;
+    vector<int>v;
+    for(int i=0;i<n;i++){
+        if(i%2==0){
+            pqmin.push(arr[i]);
+            pqmax.push(pqmin.top());
+            pqmin.pop();
+            v.push_back(pqmax.top());
+        }
+        else{
+            pqmax.push(arr[i]);
+            pqmin.push(pqmax.top());
+            pqmax.pop();
+            int x = (pqmin.top()+pqmax.top())/2;
+            v.push_back(x);
+        }
+    }
+    return v;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
