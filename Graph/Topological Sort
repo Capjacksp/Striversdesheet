@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+/////////////////////////////BFS///////////////////////////////
+vector<int> using_bfs(vector<int>adj[],int n){
+    vector<int>ans;
+    vector<int>v(n,0);
+    for(int i=0;i<n;i++){
+        for(auto it:adj[i]){
+            v[it]+=1;
+        }
+    }
+    queue<int>q;
+    for(int i=0;i<n;i++){
+        if(v[i]==0)q.push(i);
+    }
+    while(!q.empty()){
+        int i = q.front();
+        ans.push_back(i);
+        q.pop();
+        for(auto it:adj[i]){
+            v[it]--;
+            if(v[it]==0)q.push(it);
+        }
+    }
+    
+    return ans;
+}
+
+
+//////////////////////////////////////DFS///////////////////////////////////////
+void topo_sort(int i,vector<int>adj[], vector<int>&vis,stack<int>&s){
+    vis[i]=1;
+    for(auto it:adj[i]){
+        if(!vis[it]){
+            topo_sort(it,adj,vis,s);
+        }
+    }
+    s.push(i);
+    
+}
+
+vector<int> using_dfs(vector<int>adj[], vector<int>&vis,int n){
+    stack<int>s;
+    for(int i=0;i<n;i++){
+        if(vis[i]==0){
+            topo_sort(i,adj,vis,s);
+        }
+    }
+    vector<int>ans;
+    while(!s.empty()){
+        ans.push_back(s.top());
+        s.pop();
+    }
+    return ans;
+}
+
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
+    vector<int>adj[v];
+    vector<int>vis(v,0);
+    for(int i=0;i<edges.size();i++){
+        adj[edges[i][0]].push_back(edges[i][1]);
+    }
+//     return using_dfs(adj,vis,v);
+    return using_bfs(adj,v);
+}
+
+
+
+
+
+
+
+
+
