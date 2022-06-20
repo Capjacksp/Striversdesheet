@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+/////////////////////////////////////////BFS --- Topological Sort ////////////////////////////////
+bool bfs(vector<int>adj[],int n){
+    vector<int>v(n+1,0);
+    for(int i=1;i<=n;i++){
+        for(auto it:adj[i]){
+            v[it]++;
+        }
+    }
+    queue<int>q;
+    for(int i=1;i<=n;i++){
+        if(v[i]==0)q.push(i);
+    }
+    int ans=0;
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+        ans++;
+        for(auto it:adj[node]){
+            v[it]--;
+            if(v[it]==0)q.push(it);
+        }
+    }
+    if(ans==n)return false;
+    return true;
+}
+
+
+////////////////////////////////DFS/////////////////////
+bool check_dfs(int i, vector<int>adj[], vector<int>&vis, vector<int>&dvis){
+    vis[i]=1;
+    dvis[i]=1;
+    for(auto it:adj[i]){
+        if(!vis[it]){
+            if(check_dfs(it,adj,vis,dvis))return true;
+        }
+        else if(dvis[it]==1)return true;
+    }
+    dvis[i]=0;
+    return false;
+}
+
+
+bool dfs(vector<int>adj[], vector<int>&vis,vector<int>&dvis, int n){
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            if(check_dfs(i,adj,vis,dvis))return true;
+        }
+    }
+    return false;
+}
+
+
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+    vector<int>vis(n+1,0);
+    vector<int>direct_vis(n+1,0);
+    vector<int>adj[n+1];
+    for(int i=0;i<edges.size();i++){
+        adj[edges[i].first].push_back(edges[i].second);
+    }
+    return bfs(adj,n);
+//     return dfs(adj,vis,direct_vis,n);
+        
+}
