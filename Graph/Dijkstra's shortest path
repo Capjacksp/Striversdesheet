@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+#define pi pair<int,int>
+#define f first 
+#define s second 
+
+
+vector<int> bfs(vector<pi>adj[], vector<int>&v, int n, int t){
+    priority_queue<pi,vector<pi>,greater<pi>>pqmin;
+    vector<int>vis(n,0);
+    pqmin.push({0,t});
+    v[t]= 0;
+    while(!pqmin.empty()){
+        pi p = pqmin.top();
+        pqmin.pop();
+        for(auto it:adj[p.s]){
+            if(v[it.f] > it.s+v[p.s]){
+                v[it.f] = it.s+v[p.s];
+                pqmin.push({v[it.f],it.f});
+            }
+        }
+    }
+    
+    return v;
+}
+
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+    int n = vec.size();
+    vector<pi>adj[vertices];
+    vector<int>v(vertices, INT_MAX);
+    for(int i=0;i<n;i++){
+        adj[vec[i][0]].push_back({vec[i][1],vec[i][2]});
+        adj[vec[i][1]].push_back({vec[i][0],vec[i][2]});
+    }
+    return bfs(adj,v,vertices,source);
+    
+}
