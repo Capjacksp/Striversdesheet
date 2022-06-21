@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+
+int bellmonFord(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    vector<int>des(n+1,1e9);
+    des[src]=0;
+    for(int j=1;j<=n-1;j++){
+        for(int i=0;i<m;i++){
+            if(des[edges[i][0]]+edges[i][2] < des[edges[i][1]]){
+                des[edges[i][1]] = des[edges[i][0]]+edges[i][2];
+            }
+        }
+    }
+    int x = 100000;
+    if(des[dest] > x)return 1e9;
+    return des[dest];
+    
+}
