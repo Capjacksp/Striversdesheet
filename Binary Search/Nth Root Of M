@@ -1,0 +1,21 @@
+long double f(int n, long double m1){
+    long double ans=1.0;
+    for(int i=0;i<n;i++){ans*=m1;}
+    return ans;
+}
+
+double solve(int n, long long m){
+    long double l=1.0;
+    long double h=(long double)m;
+    long double t = 1e-9;   
+    while((h-l)>t){
+        long double mid = l+(h-l)/2.0;
+        if(f(n,mid) > (long double)m)h=mid;
+        else l=mid;
+    }
+    return l;
+}
+
+double findNthRootOfM(int n, long long m) {
+	return solve(n,m);
+}
