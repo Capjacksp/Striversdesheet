@@ -1,0 +1,47 @@
+#include <bits/stdc++.h> 
+/*
+sort(arr.begin(),arr.end());
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            int s = target-arr[i]-arr[j];
+            int l = j+1, r=n-1;
+            while(l<r){
+                int sum = arr[l]+arr[r];
+                if(sum < s)l++;
+                else if(sum > s) r--;
+                else return "Yes";
+            }
+            while(j<n-1 && arr[j]==arr[j+1])j++;
+        }
+        while(i<n-1 && arr[i]==arr[i+1])i++;   
+    }
+    return "No";
+*/
+string fourSum(vector<int> arr, int target, int n) {
+    sort(arr.begin(),arr.end());
+    for(int i=0;i<n;i++){
+        int t1 = target-arr[i];
+        for(int j=i+1;j<n;j++){
+            int t = t1-arr[j];
+            int k = j+1;
+            int w = n-1;
+            while(k<=w){
+                int x = arr[k]+arr[w];
+                if(x>t)w--;
+                else if(x<t)k++;
+                else return "Yes";
+            }
+            while(j<n-1 && arr[j+1]==arr[j])j++;
+        }
+        while(i<n-1 && arr[i+1]==arr[i])i++;
+    }
+    
+    return "No";
+}
+
+
+
+
+
+
+
