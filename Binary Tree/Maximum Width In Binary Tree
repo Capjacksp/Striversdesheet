@@ -1,0 +1,58 @@
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) {
+            this->val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#include<bits/stdc++.h>
+#define pi pair<TreeNode<int>*,int>
+#define f first
+#define s second 
+
+int width(TreeNode<int>*root){
+    if(root==NULL)return 0;
+    queue<pi>q;
+    q.push({root,0});
+    int ans=0;
+    while(!q.empty()){
+        int l = q.size();
+        ans=max(ans,l);
+        int curr = q.front().s;
+        int leftS,rightS;
+        for(int i=0;i<l;i++){
+            int currS=q.front().s-curr;
+            TreeNode<int>*temp = q.front().f;
+            q.pop();
+            if(i==0)leftS = currS;
+            if(i==l-1)rightS=currS;
+            if(temp->left)q.push({temp->left,currS*2+1});
+            if(temp->right)q.push({temp->right,currS*2+2});
+        }
+//         ans=max(ans,rightS-leftS+1); // For if We include -1 or NULL pointer 
+    }
+    return ans;
+}
+
+int getMaxWidth(TreeNode<int> *root){
+    return width(root);
+}
+
+
+
+
+
+
+
