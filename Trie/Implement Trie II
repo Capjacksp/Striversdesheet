@@ -1,0 +1,90 @@
+class Node{
+private:
+    Node*lists[26];
+    int count_word=0;
+    int count_prefix=0;
+public:
+    bool containkey(char ch){
+        return (lists[ch-'a']!=NULL);
+    }
+    Node*get(char ch){
+        return lists[ch-'a'];
+    }
+    void put(char ch, Node*node){
+        lists[ch-'a']=node;
+    }
+    void incresePrefix(){
+        count_prefix++;
+    }
+    void increseWord(){
+        count_word++;
+    }
+    int getwordcount(){
+        return count_word;
+    }
+    int getprefixcount(){
+        return count_prefix;
+    }
+    void reduceprefix(){
+        count_prefix--;
+    }
+    void reduceword(){
+        count_word--;
+    }
+};
+
+class Trie{
+    private:
+    Node *root;
+
+    public:
+
+    Trie(){
+        root = new Node();
+    }
+
+    void insert(string &word){
+        Node* node = root;
+        for(int i =0;i<word.length();i++){
+            if(!node->containkey(word[i])){
+                node->put(word[i],new Node());
+            }
+            node=node->get(word[i]);
+            node->incresePrefix();
+        }
+        node->increseWord();
+    }
+
+    int countWordsEqualTo(string &word){
+        Node *node = root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containkey(word[i]))return 0;
+            node=node->get(word[i]);
+        }
+        return node->getwordcount();
+    }
+
+    int countWordsStartingWith(string &word){
+        Node * node = root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containkey(word[i]))return 0;
+            node=node->get(word[i]);    
+        }
+        return node->getprefixcount();
+    }
+
+    void erase(string &word){
+        Node * node= root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containkey(word[i]))return;
+            node=node->get(word[i]);
+            node->reduceprefix();
+        }
+        node->reduceword();
+    }
+};
+
+
+
+
+
