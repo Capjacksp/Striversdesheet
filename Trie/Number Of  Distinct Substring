@@ -1,0 +1,55 @@
+class Node{
+    private:
+    Node* list[26];
+    public:
+    bool isContainkey(char ch){
+        return (list[ch-'a']!=NULL);
+    }
+    void put(char ch, Node* node){
+        list[ch-'a']=node;
+    }
+    Node* get(char ch){
+        return list[ch-'a'];
+    }
+    
+};
+
+class Trie{
+    private:
+    Node*root;
+    public:
+    Trie(){
+        root = new Node();
+    }
+    int insert(string word){
+        Node*node= root;
+        int ans=0;
+        for(int i=0;i<word.size();i++){
+            if(!node->isContainkey(word[i])){
+                ans+=1;
+                node->put(word[i],new Node());
+            }
+            node=node->get(word[i]);
+        }
+        return ans;
+    }
+    
+};
+
+
+int distinctSubstring(string &word) {
+    Trie *trie = new Trie();
+    int n = word.length();
+    int ans=0;
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            ans+=trie->insert(&word[j]);
+        }
+    }
+    return ans;
+}
+
+
+
+
+
