@@ -1,0 +1,72 @@
+#include<bits/stdc++.h>
+class Node{
+    private:
+    Node*list[2];
+    public:
+    bool containkey(int x){
+        return (list[x]!=NULL);
+    }
+    void put(int x, Node* node){
+        list[x]=node;
+    }
+    Node*get(int x){
+        return list[x];
+    }
+};
+
+class Trie{
+    private:
+    Node*root;
+    public:
+    Trie(){
+        root=new Node();
+    }
+    void insert(int num){
+        Node*node=root;
+        for(int i=31;i>=0;i--){
+            int bits = (num>>i)&1;
+            if(!node->containkey(bits)){
+                node->put(bits,new Node());
+            }
+            node=node->get(bits);
+        }
+    }
+    int getMaxxor(int num){
+        Node* node=root;
+        int maximum=0;
+        for(int i=31;i>=0;i--){
+            int bits=(num>>i)&1;
+            if(node->containkey(1-bits)){
+                maximum=maximum | (1<<i);
+                node=node->get(1-bits);
+            }
+            else node=node->get(bits); 
+        }
+        return maximum;
+    }
+};
+
+
+int maximumXor(vector<int> A){
+    Trie trie;
+    int n = A.size();
+    for(int i=0;i<n;i++){
+        trie.insert(A[i]);
+    }
+    int ans=0;
+    for(int i=0;i<n;i++){
+        ans=max(ans,trie.getMaxxor(A[i]));
+    }
+    return ans;
+}
+
+
+
+
+
+
+
+
+
+
+
