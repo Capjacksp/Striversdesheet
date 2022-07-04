@@ -1,0 +1,16 @@
+void dfs(vector<vector<int>>&image, int i,int j,int n,int m,int pre,int color){
+    if(i<0 || i>=n || j<0 || j>=m || image[i][j]!=pre || image[i][j]==color)return ;
+        image[i][j]=color;
+        dfs(image,i+1,j,n,m,pre,color);
+        dfs(image,i-1,j,n,m,pre,color);
+        dfs(image,i,j-1,n,m,pre,color);
+        dfs(image,i,j+1,n,m,pre,color);
+    
+}
+
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor){
+    int n = image.size();
+    int m = image[0].size();
+    dfs(image,x,y,n,m,image[x][y],newColor);
+    return image;
+}
