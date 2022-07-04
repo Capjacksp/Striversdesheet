@@ -1,0 +1,102 @@
+/************************************************************
+
+    Following is the Binary Tree node structure
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+////Brute Force Solution But Doesn't work :')
+/*
+bool countleftbst(int x,TreeNode<int>*root){
+    if(root==NULL)return true
+    if(root->data < x)return false;
+    countleftbst(x,root->left);
+    countleftbst(x,root->right);
+}
+
+bool countrightbst(int x, TreeNode<int>*root){
+    if(root==NULL)return true;
+    if(root->data > x)return false;
+    countrightbst(x,root->left);
+    countrightbst(x,root->right);
+}
+
+int countnodes(TreeNode<int>*root){
+    if(root==NULL)return 0;
+    int x = 1+countnodes(root->left);
+    int y = 1+countnodes(root->right);
+    return x+y;
+}
+
+void solve(TreeNode<int>*root , int &ans){
+    if(root==NULL)return;
+    solve(root->left,ans);
+    solve(root->right,ans);
+    if(countleftbst(root->data,root->left) && countrightbst(root->data,root->left)){
+        int x = countnodes(root);
+        ans=max(ans,x);
+    }
+}
+
+int brute(TreeNode<int>*root){
+    int ans=0;
+    solve(root,ans);
+    return ans;
+}*/
+/////////////////////////////////////////////////////////////////////////////////////
+#include<bits/stdc++.h>
+class Node{
+    public:
+    int maxvalue , minvalue , maxsize;
+    Node(int minv, int maxv, int maxsize){
+        maxvalue = maxv;
+        minvalue = minv;
+        this->maxsize = maxsize;
+    }
+};
+
+Node optimal(TreeNode<int>*root){
+    if(!root)return Node(INT_MAX,INT_MIN,0);
+    Node x = optimal(root->left);
+    Node y = optimal(root->right);
+    if(x.maxvalue < root->data && root->data < y.minvalue){
+        return Node(min(root->data,x.minvalue),max(root->data,y.maxvalue),x.maxsize+y.maxsize+1);
+    }
+    return Node(INT_MIN,INT_MAX,max(x.maxsize,y.maxsize));
+}
+
+
+int largestBST(TreeNode<int>* root){
+//     return brute(root);
+    return optimal(root).maxsize;
+    
+}
+
+
+
+
+
+
+
+
+
+
