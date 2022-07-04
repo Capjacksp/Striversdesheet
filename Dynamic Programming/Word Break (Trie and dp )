@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>
+class Node{
+    private:
+    Node * Allcharacters[26];
+    bool flag = false;
+    public:
+    bool isContain(char c){
+        return (Allcharacters[c-'a']!=NULL);
+    }
+    void put(char c, Node* node){
+        Allcharacters[c-'a']=node;
+    }
+    Node*get(char c){
+        return Allcharacters[c-'a'];
+    }
+    void setFlag(){
+        flag = true;
+    }
+    bool getFlag(){
+        return flag;
+    }
+};
+
+class Trie{
+    private:
+    Node*root;
+    public:
+    Trie(){
+        root=new Node();
+    }
+    void insert(string s){
+        Node*node=root;
+        for(int i=0;i<s.length();i++){
+            if(!node->isContain(s[i])){
+                node->put(s[i], new Node());
+            }
+            node=node->get(s[i]);
+        }
+        node->setFlag();
+    }
+    void search(string s, int start , vector<int>&dp){
+        Node*node=root;
+        for(int i=start;i<s.length();i++){
+            if(!node->isContain(s[i]))return ;
+            node=node->get(s[i]);
+            if(node->getFlag())dp[i+1]=true;
+        }
+        
+        if(node->getFlag())dp[s.length()]=true;
+    }
+    
+    
+};
+
+bool wordBreak(vector < string > & arr, int n, string & target) {
+//     Trie trie;
+//     for(int i=0;i<n;i++){
+//         trie.insert(arr[i]);
+//     }
+    int m = target.size();
+    vector<int>dp(m+1,false);
+    dp[0]=true;
+//     for(int i=0;i<m;i++){
+//             if(dp[i])trie.search(target,i,dp);
+//     }
+    
+    ////Using DP 
+    for(int i=1;i<=m;i++){
+        for(int j=0;j<i;j++){
+            if((dp[j]) && (find(arr.begin(),arr.end(),target.substr(j,i-j))!=arr.end())){
+                dp[i]=true;
+                break;
+            }
+        }   
+    }
+    return dp[m];
+}
+
+
+
+
+
+
+
+
+
