@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+int cut(vector<int>&price, int i, int n, vector<vector<int>>&dp){
+    if(i<0)return n*price[0];
+    if(dp[i][n]!=-1)return dp[i][n];
+    int nottake= cut(price,i-1,n,dp);
+    int take = INT_MIN;
+    int idx =i+1;
+    if(idx <= n){
+        take = price[i]+cut(price,i,n-idx,dp);
+    }
+    return dp[i][n] = max(take,nottake);
+}
+
+int solve(vector<int>&price, int n){
+    vector<int>dp(n+1);
+    dp[0]=0;
+    for(int i=1;i<=n;i++){
+        int max_value = INT_MIN;
+        for(int j=0;j<i;j++){
+            max_value = max(max_value,price[j]+dp[i-j-1]);
+        }
+        dp[i]=max_value;
+    }
+    return dp[n];
+}
+
+
+int cutRod(vector<int> &price, int n){
+//     vector<vector<int>>dp(n,vector<int>(n+1,-1));
+// 	return cut(price,n-1,n,dp);
+    return solve(price,n);
+}
+
+
+
